@@ -1,0 +1,8 @@
+.\OpenEnv
+.pytest_cache
+.github
+.pytest_cache
+.benchmarks
+.venv
+venv
+CACHEDIR.TAG
