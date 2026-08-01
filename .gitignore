@@ -1,9 +1,20 @@
-.\OpenEnv
-.pytest_cache
-.github
-.pytest_cache
-.benchmarks
-.venv
-venv
+# Python virtual environments
+venv/
+.venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest and benchmark caches
+.pytest_cache/
+.benchmarks/
+
+# Ignore cloned OpenEnv external repository
+/OpenEnv/
+OpenEnv/
+# OS files
+.DS_Store
+Thumbs.db
 CACHEDIR.TAG
-OpenEnv

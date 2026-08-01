@@ -34,7 +34,7 @@ class WeightMappingParser:
 
         current_model_dict = self.model.state_dict()
         filtered_dict = {k:v for k, v in state_dict.items() if k in current_model_dict and v.shape == current_model_dict[k].shape}
-        assert(len(filtered_dict) >0, "NO overlapping weights found. Check state dict naming schema.")
+        assert len(filtered_dict) >0, "NO overlapping weights found. Check state dict naming schema."
 
         current_model_dict.update(filtered_dict)
         self.model.load_state_dict(current_model_dict)
