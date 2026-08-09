@@ -5,3 +5,4 @@ pytest-benchmark==4.0.0
 os
 opencv-python
 torch
+psutil

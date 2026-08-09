@@ -422,6 +422,42 @@ By reducing parameter count by 86%, memory requirements for matrix multiplicatio
 * **Preserved spatial resolution** ($84 \times 84$ frame stacks) allowing the student to accurately track the ball and paddle.
 
 ---
+### Phase 3: DeepMind-Style Visualizer and Hardware Profiler
+  We proceed to build the visualization and benchmarking tools to watch both networks play the Atari Pong game side-by-side with Real-Time HUD overlays (FPS, Latency, RAM and Action outputs).
+
+#### Approach for Phase 3:
+  ->We build our visualizer to handle side-by-side frame stitching and HUD text overlays using OpenCV.
+
+  -> We create a benchmark script to profile execution latecy, throughput (FPS), memory footprint and display the live visualizer window.
+
+  -> Making sure to load and map the weights onto the nature_cnn_pong 
+
+#### Phase 3 Observations
+
+<video controls src="Screen Recording 2026-08-06 185211.mp4" title="Title"></video>
+  ============================================================
+---------- BENCHMARK EVALUATION SUMMARY ----------
+============================================================
+ -> RAM Footprint                   : ~348 MB
+ -> Teacher Avg Latency             : ~1.30 ms - 1.33 ms (~750 FPS)
+ -> Student Avg Latency             : ~0.49 ms - 0.59 ms (~1,700 - 2,000 FPS)
+ -> Inference Speedup               : 2.21x - 2.69x Faster
+============================================================
+
+Key Engineering Feats achieved here include:
+  - **Latency Reduction**: Frame inference time dropped from 1.33ms down to 0.49ms, enabling a throughput of nearly 2000FPS on CPU.
+  - **Compact Memory Profile**: Total memory consumption remains lightweight at **~348MB**, making it suitable for edge deployment or containerized environment.
+
+Observe the following Paddle Behavior Carefully:
+   
+There are three key reasons for the strange movement of the second paddle:
+
+  - **Benchmark Execution loop Architecture:** In benchmark script, both visualizer panels show the exact same game env frame. The environment is driven strictly by the Teacher's action, t_act to ensure a fair latency and Q-Value evaluation under identical visual inputs. The Student is running passive inference side by side to compare its predicted Q-Values against Teacher in real-time.
+
+  - **Untrained Student Checkpoint:** Looking closely at the HUD overlay, the Student outputs near-zero Q-Values (0.04) because *benchmark.py* currently instantiates a fresh *LightweightStudent* instance with uninitialized weights. The trained weights from train_distill were not saved to disk or loaded into benchmark.
+
+  - **Built-In Atari Opponent Mechanics:** In Atari Pong, the **left paddle** is controlled by the built-in **ALE** (Arcade Learning Environment), while the **right paddle** is controlled by the RL model. This built-in bot is hardcoded with slight reaction delays and deliberate imperfections, causing to occasionally miss serves or hesitate.
+
 
 ## Future Plans and Features
 
@@ -531,5 +567,19 @@ $env:PYTHONPATH="src"; python .\src\lightweight_rl\train_distill.py
 * **macOS / Linux:**
 ```bash
 PYTHONPATH=src python ./src/lightweight_rl/train_distill.py
+
+```
+
+9. **Execute the benchmarking script alongside the visualizer**:
+* **Windows:**
+```bash
+$env:PYTHONPATH="src"; python .\scripts\benchmark.py
+
+```
+
+
+* **macOS/Linux**
+```bash
+PYTHONPATH=src python ./scripts/benchmark.py
 
 ```

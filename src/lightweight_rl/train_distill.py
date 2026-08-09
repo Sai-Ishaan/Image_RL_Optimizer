@@ -80,6 +80,13 @@ def run_teacher_inference_loop(checkpoint_path: str, num_steps: int =150):
                 print(f"Step {step_idx:<3} | Loss: {loss.item():.4f} | Teacher Q: {t_max_q:>7.4f} | Student Q: {s_max_q:>7.4f}")
         print("Success! Loop completed without any buffer drops or schema violations.")
 
+        os.makedirs("checkpoints", exist_ok=True)
+        student_ckpt_path = os.path.join("checkpoints", "student_pong.pt")
+        torch.save(student.state_dict(), student_ckpt_path)
+        print(f"Success! Student model checkpoint saved at {student_ckpt_path}")
+
+        
+
 if __name__ == "__main__":
     ##Creating the checkpoint variable to local NatureCNN checkpt or leave it blank to test loop orchestration
     CKPT = "checkpoints/nature_cnn_pong.pt"
