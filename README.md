@@ -458,10 +458,22 @@ There are three key reasons for the strange movement of the second paddle:
 
   - **Built-In Atari Opponent Mechanics:** In Atari Pong, the **left paddle** is controlled by the built-in **ALE** (Arcade Learning Environment), while the **right paddle** is controlled by the RL model. This built-in bot is hardcoded with slight reaction delays and deliberate imperfections, causing to occasionally miss serves or hesitate.
 
+### Phase 3.5: Implementation of Distillation Step Scaling and Replay Buffer:
+
+Our current run of the distillation pipeline and benchmark, although successful in terms of efficiency and inference speedup, results in the following issues:
+  (A) **Agent behaves Naively:** 
+  - In Atari Pong, running for 150 steps initially translates to roughly ~2.5 - 5 seconds of actual gameplay.
+  During 150 steps, the ball only travels across the screen 1-2 times.
+
+  - The Student is experiencing extreme overfitting to a microscopic sequence of states
+
+  - When the benchmark script launches a fresh game env, the Student encounters OOD states (Out-of-Distribution), which defaults to static actions since these frames haven't been observed during distillation.
 
 ## Future Plans and Features
 
-* Building visualization and benchmarking tools to monitor both networks playing side-by-side with real-time HUD overlays (FPS, Latency, RAM, and Action outputs).
+* Solve the overfitting problem by including a Replay Buffer
+
+* Teacher Checkpoint Trajectory must be improved by Scale Distillation Steps. 
 
 ---
 

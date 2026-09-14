@@ -90,4 +90,4 @@ def run_teacher_inference_loop(checkpoint_path: str, num_steps: int =150):
 if __name__ == "__main__":
     ##Creating the checkpoint variable to local NatureCNN checkpt or leave it blank to test loop orchestration
     CKPT = "checkpoints/nature_cnn_pong.pt"
-    run_teacher_inference_loop(checkpoint_path=CKPT, num_steps=150)
+    run_teacher_inference_loop(checkpoint_path=CKPT, num_steps=500)

@@ -10,7 +10,7 @@ __pycache__/
 # Pytest and benchmark caches
 .pytest_cache/
 .benchmarks/
-
+tests/__pycache__/
 # Ignore cloned OpenEnv external repository
 /OpenEnv/
 OpenEnv/
@@ -18,3 +18,4 @@ OpenEnv/
 .DS_Store
 Thumbs.db
 CACHEDIR.TAG
+.github
