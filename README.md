@@ -2,7 +2,7 @@
 
 * **Status**: Draft - Pre-Issue Prototyping
 * **Target Architecture**: External Companion Toolkit for `huggingface/OpenEnv` (`envs/atari_env`) or a plug-and-play system for OpenEnv
-* **Last Updated**: 2026-08-01
+* **Last Updated**: 2026-08-09
 
 ---
 
